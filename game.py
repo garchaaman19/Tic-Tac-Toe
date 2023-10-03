@@ -33,6 +33,13 @@ class TicTacToe:
                 return True
         return False
 
+    def check_if_draw(self):
+        pass
+        #check if none of the array contain 1 then its draw
+        check=any('1' in arr for arr in self.board)
+        if not check:
+            return True
+        
     def validate_move(self):
         if (
             isinstance(self.position, tuple)
@@ -69,8 +76,8 @@ class TicTacToe:
             [(0, 0), (1, 1), (2, 2)],  # top left - bottom right diagonal
             [(0, 2), (1, 1), (2, 0)],  # top right -bottom left diagonal
         ]
-        if_winner = self.is_winner(winning_combination)
-        return if_winner
+        return self.is_winner(winning_combination)
+        
 
         # TODO check for draw condition as well
 
@@ -92,14 +99,20 @@ class TicTacToe:
             row = self.position[0]
             column = self.position[1]
             # modify board with current player input
+            if not self.board[row][column]=='1':
+                return "Cannot write to exiting position"    
             self.board[row][column] = self.player_input
+            
             print("--------------")
 
             self.print_board()
             if_winner = self.winning_combinations()
-
+            if_draw = self.check_if_draw()
             if if_winner:
+                print("inside if_winner")
                 return True
+            if if_draw:
+                return "Match Draw"
 
         return False
 
@@ -131,6 +144,7 @@ try:
         result = obj.accept_input(user_input, current_player_input)
         # obj.print_board()
         if result:
+            print(result)
             print("You Win")
             break
             # TODO print which player has won
